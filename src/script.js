@@ -11,12 +11,15 @@ const diceEl = document.querySelector(".dice");
 const btnNew = document.querySelector(".btn--new");
 const btnRoll = document.querySelector(".btn--roll");
 const btnHold = document.querySelector(".btn--hold");
+const winner0El = document.getElementById("winner--0");
+const winner1El = document.getElementById("winner--1");
 
-const WINNING_SCORE = 100;
+const WINNING_SCORE = 10;
 
 let scores, currentScore, activePlayer, playing;
 
 // Init
+
 const init = function () {
   scores = [0, 0];
   currentScore = 0;
@@ -29,11 +32,15 @@ const init = function () {
   current1El.textContent = 0;
 
   diceEl.classList.add("hidden");
+  winner0El.classList.add("hidden");
+  winner1El.classList.add("hidden");
 
   player0El.classList.remove("player--winner", "player--active");
   player1El.classList.remove("player--winner", "player--active");
 
   player0El.classList.add("player--active");
+  btnRoll.disabled = false;
+  btnHold.disabled = true;
 };
 
 init();
@@ -49,6 +56,7 @@ const switchPlayer = function () {
   document
     .querySelector(`.player--${activePlayer}`)
     .classList.add("player--active");
+  btnHold.disabled = true;
 };
 
 // Throw dice
@@ -58,12 +66,14 @@ btnRoll.addEventListener("click", function () {
 
     diceEl.classList.remove("hidden");
     diceEl.src = `/src/img/dice-${dice}.png`;
+    btnHold.disabled = false;
 
     if (dice !== 1) {
       currentScore += dice;
       document.getElementById(`current--${activePlayer}`).textContent =
         currentScore;
     } else {
+      btnHold.disabled = true;
       switchPlayer();
     }
   }
@@ -79,12 +89,21 @@ btnHold.addEventListener("click", function () {
     if (scores[activePlayer] >= WINNING_SCORE) {
       playing = false;
       diceEl.classList.add("hidden");
+
+      //Winner
       document
         .querySelector(`.player--${activePlayer}`)
         .classList.add("player--winner");
+
       document
         .querySelector(`.player--${activePlayer}`)
         .classList.remove("player--active");
+
+      document
+        .getElementById(`winner--${activePlayer}`)
+        .classList.remove("hidden");
+      btnHold.disabled = true;
+      btnRoll.disabled = true;
     } else {
       diceEl.classList.add("hidden");
       switchPlayer();

@@ -99,7 +99,6 @@ main {
   font-size: 3.5rem;
 }
 
-/* ABSOLUTE POSITIONED ELEMENTS */
 .btn {
   position: absolute;
   left: 50%;
@@ -164,6 +163,21 @@ main {
 .player--winner .name {
   font-weight: 700;
   color: #c7365f;
+}
+
+.winner {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #ffcc00;
+  padding: 10px 10px;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow: none;
+  transform: translateX(-50%);
 }
 
 .hidden {
